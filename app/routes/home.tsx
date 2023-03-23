@@ -1,9 +1,13 @@
-import { Form, Link } from '@remix-run/react'
-import React from 'react'
+import { Form, Link } from "@remix-run/react";
+import React from "react";
 
 export default function Home() {
+  function getLinks() {
+    return ["/tests/stl", "/tests/aitest", "/tests/pokeman"];
+  }
   return (
-    <div><h1>home</h1>
+    <div>
+      <h1>home</h1>
 
       <Form action="/logout" method="post">
         <button
@@ -13,14 +17,19 @@ export default function Home() {
           Logout
         </button>
       </Form>
-      <Link
-        to="/notes"
-        className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-yellow-700 shadow-sm hover:bg-yellow-50 sm:px-8"
-      >
-        View Notes
-      </Link>
+      <div>
+        {getLinks().map((link) => {
+          return (
+            <Link
+              key={link}
+              to={link}
+              className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-yellow-700 shadow-sm hover:bg-yellow-50 sm:px-8"
+            >
+              go: {link}
+            </Link>
+          );
+        })}
+      </div>
     </div>
-
-
-  )
+  );
 }

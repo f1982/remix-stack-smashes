@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import Layout from "~/components/layout";
 
 export async function getPokemons() {
   const res = await fetch(
@@ -34,7 +35,7 @@ export const loader = async () => {
 export default function Posts() {
   const { data } = useLoaderData() as LoaderData;
   return (
-    <main className="mx-auto max-w-4xl">
+    <Layout>
       <h1 className="my-6 border-b-2 text-center text-3xl">
         Which Pokémon do you want to catch?</h1>
       <ul className='mx-auto text-center'>
@@ -49,6 +50,6 @@ export default function Posts() {
           </li>
         ))}
       </ul>
-    </main>
+    </Layout>
   );
 }

@@ -1,6 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import Layout from "~/components/layout";
 import { requireUserId } from "~/session.server";
 import getAnimal from '../../models/openai.server';
 
@@ -28,10 +29,12 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function Posts() {
   const { data } = useLoaderData();
   return (
+    <Layout title="AI Test">
     <main className="mx-auto max-w-4xl">
       <div>
         {JSON.stringify(data)}
       </div>
     </main>
+      </Layout>
   );
 }

@@ -35,7 +35,7 @@ export const loader = async () => {
 export default function Posts() {
   const { data } = useLoaderData() as LoaderData;
   return (
-    <Layout>
+    <Layout title="Pokeman">
       <h1 className="my-6 border-b-2 text-center text-3xl">
         Which Pokémon do you want to catch?</h1>
       <ul className='mx-auto text-center'>

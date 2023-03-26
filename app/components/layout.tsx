@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useUser } from "~/utils";
+import { useUser } from "~/utils/utils";
 
 type Props = {
   children: React.ReactNode;

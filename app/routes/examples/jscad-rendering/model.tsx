@@ -1,6 +1,8 @@
 import { colorize } from "@jscad/modeling/src/colors";
 import { extrudeLinear } from "@jscad/modeling/src/operations/extrusions";
 import { circle, cube, sphere, star } from "@jscad/modeling/src/primitives";
+import { availableExportFormatsFromSolids } from "~/utils/exportUtils";
+
 
 const getSimpleModel = () => {
   const models = [];
@@ -14,4 +16,5 @@ const getSimpleModel = () => {
   return models;
 };
 
+// availableExportFormatsFromSolids(getSimpleModel(),'stl')
 export { getSimpleModel };

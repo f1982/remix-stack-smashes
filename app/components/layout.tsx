@@ -1,5 +1,8 @@
+import { useLoaderData } from "@remix-run/react";
 import * as React from "react";
 import { Outlet } from "react-router-dom";
+import { loader } from "~/root";
+import { useUser } from "~/utils";
 
 type Props = {
   children: React.ReactNode;
@@ -7,11 +10,15 @@ type Props = {
 };
 
 export default function Layout({ title, children }: Props) {
+  const data = useLoaderData<typeof loader>();
+  const user = useUser();
+  
   return (
     <div className="h-full">
       <header className="flex items-center justify-between bg-gray-100 p-4">
         <div>
-          <h1 className="text-lg font-bold">{title}</h1>
+          <h1 className="text-lg font-bold">{title} </h1>
+          <span>({user.email})</span>
         </div>
         <div>
           <nav>
@@ -25,7 +32,7 @@ export default function Layout({ title, children }: Props) {
           </nav>
         </div>
       </header>
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 p-8">{children}</main>
       <footer className="flex items-center justify-between bg-gray-100 p-4">
         <div>
           <p className="text-sm text-gray-600">Last updated:</p>

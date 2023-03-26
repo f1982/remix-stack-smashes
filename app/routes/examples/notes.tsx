@@ -5,7 +5,11 @@ import { Form, Link, NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import { requireUserId } from "~/session.server";
 import { useUser } from "~/utils";
 import { getNoteListItems } from "~/models/note.server";
+import Layout from "~/components/layout";
 
+// If you want to use Outlet in this example
+// You must keep this file name and folder here
+// https://blog.logrocket.com/understanding-routes-route-nesting-remix/
 export async function loader({ request }: LoaderArgs) {
   const userId = await requireUserId(request);
   const noteListItems = await getNoteListItems({ userId });
@@ -17,16 +21,8 @@ export default function NotesPage() {
   const user = useUser();
 
   return (
-    <div className="flex h-full min-h-screen flex-col">
-      <header className="flex items-center justify-between bg-slate-800 p-4 text-white">
-        <h1 className="text-3xl font-bold">
-          <Link to="/home">My home</Link>
-        </h1>
-        <p>{user.email}</p>
-        
-      </header>
-
-      <main className="flex h-full bg-white">
+    <Layout title="Notes">
+      <div className="flex h-full">
         <div className="h-full w-80 border-r bg-gray-50">
           <Link to="new" className="block p-4 text-xl text-blue-500">
             + New Note
@@ -56,8 +52,9 @@ export default function NotesPage() {
 
         <div className="flex-1 p-6">
           <Outlet />
+          <div>hello</div>
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }

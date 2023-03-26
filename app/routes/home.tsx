@@ -4,17 +4,18 @@ import React from "react";
 export default function Home() {
   function getLinks() {
     return [
-      "/tests/url-data-storage",
-      "/tests/jscad-rendering",
-      "/tests/aitest",
-      "/tests/pokeman",
+      "/examples/url-data-storage",
+      "/examples/jscad-rendering",
+      "/examples/jscad-stl-download",
+      "/examples/aitest",
+      "/examples/pokeman",
+      "/examples/notes",
     ];
   }
   
   return (
     <div>
       <h1>home</h1>
-
       <Form action="/logout" method="post">
         <button
           type="submit"

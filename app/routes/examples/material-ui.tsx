@@ -2,13 +2,14 @@ import { Button, Grid, Slider } from "@material-ui/core";
 import Layout from "~/components/layout";
 import VolumeDown from "@material-ui/icons/VolumeDown";
 import { VolumeUp } from "@material-ui/icons";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 export default function MaterialUIExamples() {
   const [value, setValue] = useState(30);
 
-  const handleChange = (event: number, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (event: any, newValue: number | number[]) => {
+    setValue(newValue as number);
   };
+
   return (
     <Layout title="Test out material ui with Remix">
       <div>
@@ -16,7 +17,7 @@ export default function MaterialUIExamples() {
           Hello World
         </Button>
       </div>
-      <Slider defaultValue={30} aria-labelledby="disabled-slider" />
+      <Slider value={value} aria-labelledby="disabled-slider" />
       <Grid container spacing={2}>
         <Grid item>
           <VolumeDown />

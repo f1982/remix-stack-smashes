@@ -4,6 +4,7 @@ import React from "react";
 export default function Home() {
   function getLinks() {
     return [
+      "/examples/material-ui",
       "/examples/url-data-storage",
       "/examples/jscad-rendering",
       "/examples/jscad-stl-download",

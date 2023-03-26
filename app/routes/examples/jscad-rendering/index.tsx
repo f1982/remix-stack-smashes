@@ -1,7 +1,8 @@
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import Layout from "~/components/layout";
-import { getParameterDefinitions, main } from "./parameter-model";
+import { getSimpleModel } from "./model";
 
+// lazy load to reduce the loading time
 const Renderer = lazy(() =>
   import("jscad-react").then((lib) => {
     return { default: lib.default.Renderer };
@@ -18,31 +19,16 @@ export default function Index() {
     setIsHydrated(true);
   }, []);
 
-  function download(filename: string, text: string) {
-    const element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(text)
-    );
-    element.setAttribute("download", filename);
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
+  const renderLoader = () => <div>loading...</div>;
 
   // Make sure is in client side
   if (isHydrated) {
     return (
       <Layout title="JSCad Rendering Test">
-        <div>
-          {/* <Renderer solids={getSimpleModel()} height={800} width={800} /> */}
-          <Renderer
-            solids={main(getParameterDefinitions)}
-            height={800}
-            width={800}
-          />
-        </div>
+        {/* https://web.dev/code-splitting-suspense/ */}
+        <Suspense fallback={renderLoader()}>
+          <Renderer solids={getSimpleModel()} height={800} width={800} />
+        </Suspense>
       </Layout>
     );
   } else {

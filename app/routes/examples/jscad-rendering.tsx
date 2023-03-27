@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import Layout from "~/components/layout";
-import { getSimpleModel } from "./model";
+import { getSimpleModel } from "../../utils/jscad/model";
 
 // lazy load to reduce the loading time
 const Renderer = lazy(() =>

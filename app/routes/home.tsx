@@ -1,21 +1,17 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
+import { LoaderArgs } from "@remix-run/server-runtime";
 import React from "react";
+const fs = require("fs");
+
+export async function loader({ request }: LoaderArgs) {
+  return fs
+    .readdirSync("./app/routes/examples")
+    .map((file: string) => `/examples/${file.split('.')[0]}`);
+}
 
 export default function Home() {
-  function getLinks() {
-    return [
-      "/examples/jscad-leva",
-      "/examples/leva",
-      "/examples/material-ui",
-      "/examples/url-data-storage",
-      "/examples/jscad-rendering",
-      "/examples/jscad-stl-download",
-      "/examples/aitest",
-      "/examples/pokeman",
-      "/examples/notes",
-    ];
-  }
-  
+  const examples = useLoaderData<typeof loader>();
+
   return (
     <div>
       <div className="flex items-center justify-between bg-gray-100 p-4">
@@ -30,12 +26,12 @@ export default function Home() {
         <h1 className="p-2">This is the homepage of my Remix experiments</h1>
       </div>
       <div>
-        {getLinks().map((link) => {
+        {examples.map((link: string) => {
           return (
             <Link
               key={link}
               to={link}
-              className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-yellow-700 shadow-sm hover:bg-yellow-50 sm:px-8"
+              className="flex items-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-yellow-700 shadow-sm hover:bg-yellow-50 sm:px-8"
             >
               go: {link}
             </Link>

@@ -7,7 +7,7 @@ export default function Leva() {
   const { name, aNumber } = useControls({ name: 'World', aNumber: 0 })
 
   return (
-    <Layout>
+    <Layout title='Leva lib basic'>
       Hey {name}, hello! {aNumber}
     </Layout>
   )

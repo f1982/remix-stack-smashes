@@ -33,32 +33,24 @@ function urlToData(url: string): MyData | null {
   }
 }
 
-let isHydrating = true;
-
 function MyApp() {
-  const [isHydrated, setIsHydrated] = useState(!isHydrating);
-
   const [data, setData] = useState<MyData>({ name: "", age: 0 });
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
+  // Check if there is any data in the URL and parse it
   useEffect(() => {
-    isHydrating = false;
-    setIsHydrated(true);
-  },[]);
-
-  useEffect(() => {
-    // Check if there is any data in the URL and parse it
-    const newData = urlToData(window.location.href);
-    console.log("newData", newData);
-    if (newData != null) {
-      setData(newData);
+    const urlData = urlToData(window.location.href);
+    if (urlData != null) {
+      setData(urlData);
     }
+    setIsLoaded(true)
   }, []);
 
   // Update the URL with the current data whenever it changes
   useEffect(() => {
-    if (!isHydrated) return;
-    console.log("rewrite url history");
-    window.history.replaceState({}, document.title, dataToUrl(data));
+    if(isLoaded){
+      window.history.replaceState({}, document.title, dataToUrl(data));
+    }
   }, [data]);
 
   return (
@@ -78,7 +70,7 @@ function MyApp() {
         <input
           id="userAge"
           className="w-full rounded-md border border-gray-300 px-4 py-2"
-          type="text"
+          type="number"
           defaultValue={data.age}
           onChange={(e) => setData({ ...data, age: parseInt(e.target.value) })}
         />

@@ -1,40 +1,51 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useActionData, useTransition } from "@remix-run/react";
 import Layout from "~/components/layout";
-import { requireUserId } from "~/session.server";
-import getAnimal from '../../models/openai.server';
+import getAnimal from "../../models/openai.server";
 
-// export function ErrorBoundary({ error }: { error: Error }) {
-//   console.error(error);
-//   return (
-//     <div>
-//       <div>Find a error</div>
-//       <h1>{error.message}</h1>
-//     </div>
-//   );
-// }
+export async function action({ request }: ActionArgs) {
+  const body = await request.formData();
+  const petType = body.get("pet");
+  console.log("petType", petType);
 
-export const loader = async ({ request }: LoaderArgs) => {
-  console.log('request', request);
-  const userId = await requireUserId(request);
-  console.log('userId', userId);
+  const errors: { message: string } = { message: "" };
+
+  if (!petType) {
+    errors.message = "pet must not empty";
+  }
+
+  if (errors.message) {
+    return json(errors, { status: 422 });
+  }
 
   return json({
-    data: await getAnimal('whale'),
-    // data: await getAnimal(null),
+    data: await getAnimal(petType),
   });
-};
+}
 
 export default function Posts() {
-  const { data } = useLoaderData();
+  const data = useActionData<typeof action>();
+  console.log('data', data);
+
+  let transition = useTransition();
+
   return (
-    <Layout title="AI Test">
-    <main className="mx-auto max-w-4xl">
-      <div>
-        {JSON.stringify(data)}
-      </div>
-    </main>
-      </Layout>
+    <Layout title="Open AI Test">
+      <Form method="post">
+        <label>
+          Type of you pet
+          <input
+            type="text"
+            name="pet"
+            className="w-full rounded-md border-2 border-gray-300 p-2"
+            placeholder="Enter your pet type"
+          />
+        </label>
+        <button type="submit"> Submit</button>
+      </Form>
+      <div>{transition.state === "submitting" && "Waiting..."}</div>
+      <div>{data?.data ? data.data : ""}</div>
+    </Layout>
   );
 }

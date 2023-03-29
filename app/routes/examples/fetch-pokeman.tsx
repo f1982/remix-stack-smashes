@@ -2,6 +2,7 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import Layout from "~/components/layout";
 
+// get pokeman list
 export async function getPokemons() {
   const res = await fetch(
     'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0'
@@ -10,6 +11,7 @@ export async function getPokemons() {
   return res.results;
 }
 
+// get specific pokeman
 export async function getPokemon(name: string | undefined) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then(
     (res) => res.json()
